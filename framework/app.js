@@ -31,6 +31,7 @@ module.exports = class Application {
 
   _createServer = () => {
     return http.createServer((req, res) => {
+      process.send('notifyRequest');
       let body = '';
 
       req.on('data', (chunk) => {

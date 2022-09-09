@@ -10,6 +10,8 @@
   },
   "plugins": ["prefer-arrow", "prettier"],
   "rules": {
+    "no-restricted-syntax": "off",
+    "no-plusplus": "off",
     "no-return-await": "error",
     "no-console": ["warn", { "allow": ["info"] }],
     "no-multiple-empty-lines": "error",
