@@ -1,6 +1,7 @@
 const EventEmitter = require('events');
-
 const http = require('http');
+
+const { parseString } = require('xml2js');
 
 module.exports = class Application {
   constructor() {
@@ -39,9 +40,17 @@ module.exports = class Application {
       });
 
       req.on('end', () => {
-        if (body) {
+        if (body.includes('xml')) {
+          parseString(body, { explicitArray: false }, (err, result) => {
+            if (err) {
+              console.error(err);
+            }
+            req.body = result;
+          });
+        } else if (body) {
           req.body = JSON.parse(body);
         }
+
         this.middlewares.forEach((middleware) => middleware(req, res));
 
         const emitted = this.emitter.emit(this._getRouteMask(req.pathname, req.method), req, res);
